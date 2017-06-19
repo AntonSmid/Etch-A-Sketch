@@ -1,0 +1,179 @@
+<html>
+<head>
+
+<style id="webmakerstyle">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.clear {
+  clear: both;
+}
+
+#place {
+  font-family: arial, sans-serif;
+  text-align: center;
+  margin: 10px auto;
+  border: 1px solid red;
+}
+
+h1 {
+  letter-spacing: 16px;
+  font-weight: 100;
+  font-size: 45px;
+}
+
+h3 {
+  letter-spacing: 4px;
+  font-weight: 100;
+  font-size: 12px;
+  color: #a3a3a3;
+}
+
+.cell {
+	float: left;
+ // border: 1px solid lightgray;
+}
+
+#container {
+	margin: 0 auto;
+	height: 600px;
+	width: 600px;
+	border: 40px solid silver;
+  border-radius: 10%;
+	overflow: hidden;
+//	position: absolute;
+}
+
+
+.highlighted {
+
+	background-color: black;
+}
+
+
+#color-pick input{
+  margin: 10px 10px; 
+}
+
+button {
+  font-family: arial, sans-serif;
+	margin: 0px 30px;
+  padding: 10px;
+  border-radius: 30%;
+  width: 100px;
+
+  
+}
+</style>
+</head>
+<body>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sketchpad</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> 
+
+</head>
+<body>
+  <div id="place">
+    <h1>&middot; Sketcher &middot;</h1>
+    <h3>made by &middot; Anton Smid  &middot; jun, 2017    </h3>
+    <div id="container">  
+  		
+	  </div>
+    <div id="color-pick">
+      Red: <input type="radio" value="Red">
+      Yellow: <input type="radio" value="Yellow">
+      Blue: <input type="radio" value="Blue">
+      Black: <input type="radio" value="Black">
+      White: <input type="radio" value="White"> 
+    </div>  
+    <div id="buttons">
+      <button id="new">New Grid</button>
+      <button id="clear">Clear Grid</button>
+      <button id="erase">Eraser</button>
+    </div>
+  </div>   
+	
+</body>
+</html>
+
+<script src="chrome-extension://lkfkkhfhhdkiemehlpkgjeojomhpccnh/lib/screenlog.js"></script><script>
+$(document).ready(function(){
+  
+function grid(gridSize) {
+
+	var containerSize = (600 / gridSize);
+
+	$('#container').empty();
+
+	for (var j = 1; j <= gridSize; j++) {
+		for (var i = 1; i <= gridSize; i++) {
+			$('<div class="cell"></div>').appendTo('#container');
+		}
+	}
+ 
+	$('.cell').width(containerSize);
+	$('.cell').height(containerSize);
+ 
+/*  
+  $('.cell').hover(function() {
+		$(this).addClass('highlighted');
+	})
+ */
+  
+  var pickedColor = "black";
+  
+// napravi spremembo barve med belo in izbrano, ob kliku na Eraser, napis se sprememni na Pen
+  
+  $("#erase").on("click", function () {
+    if (pickedColor != "white") {
+      pickedColor = "white";
+      $(this).html("Pen");
+    } else {
+      pickedColor = "black";
+      $(this).html("Eraser");
+    }
+    
+  })
+  
+  // napravi izbiro barve s pomocjo radioButtnow 
+  //
+  //
+  
+  $(".cell").hover(function() {
+    $(this).css("background", pickedColor);
+  })
+  
+}
+ 
+
+
+  
+
+$(document).ready(function() {
+	grid(16);  //starting grid size
+
+	$('#clear').on('click', function () {
+		//$('.cell').removeClass('highlighted');
+    $(".cell").css("background-color", "white")
+	})
+  
+
+	
+
+	$('button#new').click(function () {
+		$('.cell').removeClass('highlighted');
+		var newSize = prompt('How big would you like the grid to be?' );
+		grid(newSize);
+
+	})
+})
+
+});
+//# sourceURL=userscript.js
+</script>
+</body>
+</html>
